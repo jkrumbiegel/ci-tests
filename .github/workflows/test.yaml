@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     # Map a step output to a job output
     outputs:
-      output1: ${{ steps.outputstep.outputs.test }}
+      output1: ${{ steps.outputstep.outputs.n_missing_refimages }}
     steps:
       - uses: julia-actions/setup-julia@v1
         with:
@@ -18,7 +18,7 @@ jobs:
         run: |
           julia -e '
             println("hi")
-            println("""::set-output name=test::"Found 5 new reference images" """)
+            println("""::set-output name=n_missing_refimages::5""")
             println("something else")
           '
   job2:
@@ -29,7 +29,7 @@ jobs:
         uses: Sibz/github-status-action@v1
         with: 
           authToken: ${{secrets.GITHUB_TOKEN}}
-          context: 'Test run'
-          description: ${{needs.job1.outputs.output1}}
+          context: 'New reference images found'
+          description: 'n = ${{needs.job1.outputs.output1}}'
           state: 'failure'
     
