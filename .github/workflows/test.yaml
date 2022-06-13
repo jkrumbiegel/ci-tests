@@ -18,12 +18,18 @@ jobs:
         run: |
           julia -e '
             println("hi")
-            println("::set-output name=test::hello")
+            println("""::set-output name=test::"Found 5 new reference images" """)
             println("something else")
           '
   job2:
     runs-on: ubuntu-latest
     needs: job1
     steps:
-      - run: echo ${{needs.job1.outputs.output1}}
+      - name: Status update
+        uses: Sibz/github-status-action@v1
+        with: 
+          authToken: ${{secrets.GITHUB_TOKEN}}
+          context: 'Test run'
+          description: ${{needs.job1.outputs.output1}}
+          state: 'failure'
     
