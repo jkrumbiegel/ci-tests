@@ -18,7 +18,8 @@ jobs:
         run: |
           julia -e '
             println("hi")
-            println("::set-output name::test=hello")
+            println("::set-output name=test::hello")
+            println("something else")
           '
   job2:
     runs-on: ubuntu-latest
